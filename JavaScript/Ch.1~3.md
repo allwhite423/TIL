@@ -1,7 +1,5 @@
-﻿
 
 
-> Written with [StackEdit](https://stackedit.io/).
 
 ## INTRODUCTION
 -  JAVA랑 관련 1도 없음

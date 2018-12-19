@@ -239,7 +239,7 @@ header & source file 나눠서 생성
 			MyClass();  
 		protected:  
 		private:  
-	};  
+	};  // class 정의 뒤에 semicolon(;) 꼭 붙이기!
 	  
 	#endif // MYCLASS_H
 	```
@@ -252,4 +252,137 @@ header & source file 나눠서 생성
 		//constructor
 	}
 	```
+
+<br>
+
+- Scope Solution Operator ::
+	- class의 member function을 정의할 때 사용
+	- class는 header file에 미리 선언되어 있어야 함
+	- header file에는 class, class의 함수, class 변수 등 모든 **선언**이 있음
+
+- header : what / cpp source : how
+
+## Destructor
+- object가 deleted / destroyed 될 때 call 되는 함수
+- constructor처럼 class이름이랑 같고, 앞에 tilde(~)를 붙여줌
+	```c++
+	class MyClass{
+		public: 
+			MyClass() { //constructor
+				//called when an object is created
+			}
+			~MyClass(){  //destructor
+			  //~~
+			}
+	}
+	```
+- in header file
+	```c++
+	// MyClass.h
+	class MyClass {
+		public:
+			MyClass();
+			~MyClass();
+	};
+	```
+- in source file
+	```c++
+	// MyClass.cpp
+	#include "MyClass.h"
+	#include <iostream>
+	using namespace std;
 	
+	MyClass::MyClass() {
+		cout<< "Constructor" << endl;
+	}
+	MyClass::~MyClass() {
+		cout<< "Destructor" << endl;
+	}
+	```
+- destructor 에는 parameter 없음 => overloading 불가 => 클래스 당 destructor는 오직 한개
+- destructor 정의는 필수 아님
+
+<br>
+
+- program 실행에 따른 object 생성과 소멸
+	```c++
+	#include <iostream>  
+	#include "MyClass.h"
+	using namespace std;  
+  
+	int main() {  
+		MyClass obj;  // object 생성 -> constructor called
+  
+		return 0;  
+	}
+	```
+	- 프로그램 실행 끝날 때, object 삭제되고, destructor called
+
+## #ifndef, #define
+- ***ifndef*** = ***"if not defined"***
+	- 정의되어있지 않다면, 정의해라
+	- 프로그램에게 해당 헤더파일이 정의되어 있지 않다면, 정의하라고 시키는 역할
+	- 한 파일에서 헤더파일이 한 번 이상 포함되는 것을 방지하기 위함
+- ***endif*** = ***end the condition***
+	```c++
+	#ifndef MYCLASS_H
+	#define MYCLASS_H
+	
+	class MyClass {
+		public:
+		MyClass();
+		protected:
+		private:
+	};
+	
+	#endif
+	```
+
+## Selection Operator
+- **Member Function**
+	- 선언, 정의 둘다 return type 명시해야 함
+	- void myPrint() 함수 선언, 정의 
+	```c++
+	//MyClass.h
+	class MyClass{
+		public: 
+		MyClass();
+		void myPrint();
+		protected:
+		private:
+	};
+	```
+	```c++
+	//MyClass.cpp
+	#include "MyClass.h"
+	#include <iostream>
+	using namespace std;
+	
+	MyClass::MyClass() {
+	
+	}
+
+	void MyClass::myPrint() {
+		cout<< "Hello" << endl;
+	} 
+	```
+	> return type 명시 위치 주의
+- Dot Operator (**.**): object 변수가 function 사용시
+	```c++
+	#include "MyClass.h"
+	int main() {
+		MyClass obj; //객체 생성
+		obj.myPrint(); //function call
+	}
+	```
+- Selection Operator (**->**) : 객체 포인터에서 function 사용시
+	```c++
+	#include "MyClass.h"
+	int main() {
+		MyClass obj; //객체 생성
+		MyClass *ptr = &obj; // 객체 obj를 가리키는 MyClass type pointer ptr에 obj의 address 할당
+		obj.myPrint(); 
+		ptr->myPrint(); 
+	}
+	```
+	> function call 결과 두개 같음

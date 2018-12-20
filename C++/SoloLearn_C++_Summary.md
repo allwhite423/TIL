@@ -386,3 +386,184 @@ header & source file 나눠서 생성
 	}
 	```
 	> function call 결과 두개 같음
+
+## Const Objects
+- constant : 고정된 value를 가지고 있는 expression
+- 프로그램 수행 중에는 바뀔 수 없음
+- ***const*** keyword 사용
+	```c++
+	const int x = 15;
+	```
+- **생성시에 꼭 초기화(initialize) 되어야 함**
+	- object 의 경우 const 로 선언되면 constructor를 통해 초기화 된다
+	- 일단 한번 const class object가 생성되면, 해당 object의 **member 변수를 바꿀 수 없다.**
+	- public function 등을 통해서도 멤버 변수 바꿀 수 없음
+	```c++
+		const MyClass obj;
+	```
+	
+- const object 는 **constant function 만** 사용 가능
+- non-const object는 constant function 사용 불가
+- const function : function 이름 괄호 뒤에 const keyword 붙임
+	```c++
+	//MyClass.h
+	class MyClass{
+		public: 
+			void myPrint() const;
+	};
+	```
+	```c++
+	//MyClass.cpp
+	#include "MyClass.h"
+	#include <iostream>
+	using namespace std;
+	
+	void MyClass::myPrint() const {
+		cout<< "this is a const function" << endl;
+	};
+	
+	int main() {
+		const MyClass obj;
+		// const로 선언한 object 변수만 const function 사용 가능
+		obj.myPrint();
+	}
+	```
+
+## Member Initializers
+- **member initialization list**
+	- class의 const member variable을 construtor에서 초기화 하는 용도로 사용
+	- const variable은 선언 후에 다른 value를 다시 할당하는게 허용되지 않기 때문!
+	- constructor 함수의 parameter 뒤에 colon(:) 붙이고 명시해주면 됨
+	```c++
+	class MyClass{
+		public: 
+			MyClass(int r, int c) {
+				regVar = r;
+				constVar = c; // error
+			}
+		private:
+			int regVar;
+			const int constVar; 
+	};
+	```
+	> error - const 변수는 선언 후에 다른 value 할당 불가
+	
+	```c++
+	class MyClass{
+		public: 
+			MyClass(int r, int c) 
+			: regVar(r), constVar(c){ // member initializaion list used
+			}
+		private:
+			int regVar;
+			const int constVar; 
+	};
+	```
+	> member initializaion list로 해결 가능
+
+- example) header , source 
+	```c++
+	// MyClass.h
+	class MyClass {
+		public:
+			MyClass(int a, int b);
+		private:
+			int regVar;
+			const int constVar;
+	};
+	```
+	
+	```c++
+	// MyClass.cpp
+	#include "MyClass.h"
+	MyClass::MyClass(int a, int b)
+	: regVar(a), constVar(b) {
+		cout << regVar << endl;
+		cout << constVar << endl;
+	}
+	```
+	
+	```c++
+	#include "MyClass.h"
+	int main() {
+		MyClass obj(42, 33); //constructor에 parameter 넘김
+	}
+	```
+	> output : 
+	42
+	33
+
+- member initialization list는 const variable 초기화 할 때만 쓰여야 함
+	- 일반 변수 초기화에도 쓰일 수는 있음 
+
+## Composition
+- Class 의 member 변수로 다른 class를 사용 가능
+- ex) class Person 의 member로 class Birthday type을 사용
+	```c++
+	//Birthday.h
+	class Birthday {
+		public:
+			Birthday(int y, int m, int d)
+			: year(y), month(m), day(d) 
+			{
+			}
+			void printDate() {
+				cout << month << "/" << 
+				day << "/" << year << endl;
+			}
+		private:
+			int year;
+			int month;
+			int day;
+	};
+	```
+	```c++
+	// Person.h
+	#include <string>
+	#include "Birthday.h"
+	
+	class Person {
+		public:
+			Person(string n, Birthday b)
+			: name(n), bday(b)
+			{
+			}
+			void printInfo() {
+				cout << name << endl;
+				bday.printDate();
+			}
+		private:
+			string name;
+			Birthday bday;
+	};
+	```
+	```c++
+	#include "Person.h"
+	
+	int main() {
+		Birthday bd(1993, 9, 5);
+		Person me("Diana", bd);
+		me.printInfo();
+		
+		return 0;
+	}
+	```
+	> output:
+	Diana
+	9/5/1993
+	
+## Friend keyword	
+- class에서 private으로 선언된 변수나 함수는 외부에서 접근 불가
+- friend 관계의 class끼리는 private에서 friend keyword가 붙은 멤버에 한해 접근 가능
+- 기존의 접근 지정자를 무시할 수 있는 예외적 기능
+- 정보 은닉 개념에 위배됨
+- friend 관계의 class에겐 friend 멤버는 public처럼 작용
+- 당하는 class에서 friend될 class를 선언 : 허락의 의미
+	- class A에서 class B를 friend로 선언 = A는 B의 것!
+	- B에게 정보를 털려두 괜찮다는 의미
+- [참조링크](http://genesis8.tistory.com/98)
+- 
+- 
+##  This keyword
+## Operator Overloading
+

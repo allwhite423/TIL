@@ -7,7 +7,7 @@ SoloLearn (C++)
 	- ***the heap*** : 프로그램이 실행됨에 따라 동적으로 할당되는 unused memory 부분
 	<br>
 - **동적으로 variable 선언하여 memory 할당하기**
-	- **new**  keyword 사용
+	- ***new***  keyword 사용
 	```c++
 	int *p = new int;
 	*p = 5;
@@ -221,9 +221,9 @@ Data **abstraction** is the concept of providing only essential information to t
 내부 구현 내용을 보여주지 않고 필요한 정보만 제공하는 개념
 
 - 특정 instance과 완전 분리된 개념
-- ***cout***  : ***iostream*** 에 정의된 class로 만든 object
+- ex)  ***cout***  : ***iostream*** 에 정의된 class로 만든 object
 	- cout의 안의 세부 구현 내용은 몰라도 어떤 일을 하는지 알고 사용 가능하다.
-- inheritance, polymorphism 의 기본이 되는 개념
+- **inheritance, polymorphism** 의 기본이 되는 개념
 
 ## Seperate Files for Classes
 header & source file 나눠서 생성
@@ -562,8 +562,61 @@ header & source file 나눠서 생성
 	- class A에서 class B를 friend로 선언 = A는 B의 것!
 	- B에게 정보를 털려두 괜찮다는 의미
 - [참조링크](http://genesis8.tistory.com/98)
-- 
-- 
+- 좀더 공부 필요함
+
 ##  This keyword
+- member function 안에서 this 는 불려진 object 자신을 가리키는 **pointer 변수** 임
+- 사용시에 ***->*** or ***dereference 기호( * )*** 사용 
+	```c++
+	class MyClass{
+		public:
+			MyClass(int a): var(a) {
+			}
+			void printVar() {
+				// 모두 같은 
+				cout << var << endl;
+				cout << this->var << endl;
+				cout << (*this).var << endl;
+			}
+		private:
+			int var;	
+	};
+	```
+- friend function 에서는 ***this*** keyword 사용 불가
+	- friend는 class의 member가 아니기 때문
+
 ## Operator Overloading
+- 대부분의 C++ built-in operator는 redefined/overloaded 가능
+	![enter image description here](https://api.sololearn.com/DownloadFile?id=2463)
+	> 안되는 operator :: | .* | . | ?:
+	
+- ex) ***+ operator*** overloading 하기
+	- ***operator*** keyword를 사용하여 해당 operator의 기능을 정의
+	- +는 Classroom class의 ***capacity*** 변수를 더한 새로운 Classroom object 를 return
+	```c++
+	class Classroom {
+		public:
+			int capacity;
+			Classroom() {}
+			Classroom(int c): capacity(c) {}
+			
+			//operator + overloading
+			Classroom operator+(Classroom &a) {
+				Classroom res;
+				res.capacity = this->capacity + a.capacity;
+				return res;
+			}
+	};
+	
+	int main() {
+		Classroom a(120), b(100);
+
+		// + operator overloading
+		Classroom newClassroom = a + b;
+		
+		cout << newClassroom.capacity <<endl;
+		// 220
+	}
+	```
+## Inheritance
 

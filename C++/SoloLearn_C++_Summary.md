@@ -619,4 +619,250 @@ header & source file 나눠서 생성
 	}
 	```
 ## Inheritance
+- 상속은 다른 class 를 기반으로 새로운 class를 정의할 수 있도록 하는 특성
+- Base Class (상위) - Derived Class (하위)
+- 상속(Inheritance) 의 개념은 ***is-a*** relationship을 구현한 것
+	- mammal is a animal
+	- dog is a mammal
+	- Thus, dog is a animal
+- 상속 class 구현하기
+	- class 이름 옆에 : 붙이고 접근자, 상위클래스 순서로 명시
+	```c++
+	#include <iostream>
+	using namespace std;
+	class Mother{
+		public:
+			Mother() {};
+			void sayHi() {
+				cout<< "hi" <<endl;
+			}
+	};
+	class Daughter: public Mother {
+		//all public member of Mother becomes public memeber of Daughter 
+		public:
+			Daughter(){};
+	};
+	
+	int main() {
+		Daughter d;
+		d.sayHi();
+		// output: hi
+	}
+	```
+
+- 다중상속 가능 (, 로구분)
+	```c++
+	class Daughter: public Mother, public Father
+	```
+- A derived class inherits all base class methods with the following exceptions:  (상속안되는 예외들)
+	- Constructors, destructors  
+	- Overloaded operators  
+	- The friend functions
+
+## Protected Members (Access Specifier)
+- Access Specifier
+
+|  | access range |
+|--|--|
+|**Public**  | anywhere outside of class |
+|**Private**  | inside of class, friend class |
+|**Protected** | derived class (하위클래스) |
+
+- Type of Inheritance
+	- 상속에서도 access specifier가 사용되는데, 이에 따라 하위 클래스에서의 상위클래스 member 접근자가 결정됨
+	```c++
+	class Daughter : _______ Mother
+	```
+	**상위 클래스의 private member는 하위클래스에 상속 불가**
+	
+|  |base class -> derived class | 
+|--|--|
+|**Public**  | public->public, protected->protected|
+|**Private**  | public, protected -> protected |
+|**Protected** | public, protected -> private |
+
+- 상속에서 default access specifier 는 ***private***
+
+## Derived Class Constructor & Destructor
+- 상속관계에서, 상위클래스의 constructor, destructor는 상속되지 않는다.
+- 하지만, derived class 가 생성되거나 삭제될 때, 자동으로 상위클래스의 constructor, destructor가 호출됨
+	```c++
+	class Mother {
+		public:
+			Mother() {
+				cout<< "Mother constructor" << endl;
+			}
+			~Mother() {
+				cout<< "Mother destructor" << endl;
+			}
+	};
+	
+	class Daughter: public Mother{
+		public:
+			Daughter() {
+				cout<< "Daughter constructor" << endl;
+			}
+			~Daughter() {
+				cout<< "Daughter destructor" << endl;
+			}
+	};
+	
+	int main() {
+		Daughter d;
+		return 0;
+	}
+	/* output
+	Mother constructor
+	Daughter constructor
+	Daughter destructor
+	Mother destructor
+	*/
+	```
+	> 생성 : 상위 클래스 -> 하위 클래스
+	삭제 : 하위 클래스 -> 상위클래스
+
+## Polymorphism (다형성)
+- 상속관계에서 가능한 개념
+- 하나의 함수를 호출하면 그 함수가 불린 객체에 맞게 응답하는 것
+- 같은 타입이지만, 실행결과가 다양한 객체를 이용할 수 있는 성질(타입 = 부모클래스가 같음을 의미)
+	- 상위클래스A, 하위클래스B 
+	```c++
+	class A {
+		public:
+		void x() {
+			cout<< "A x" << endl;
+		}
+	};
+	class B : public A {
+		public:
+		void x() {
+			cout<< "B x" << endl;
+		}
+	};
+	
+	int main() {
+		B sub;
+		// B 객체 생성
+		A *super = &sub;
+		// A 타입 변수에 B객체 
+		super->x();
+		//output : "B x"
+	}
+	``` 
+- single function, different implementation
+- overloading, overriding
+- example: Enemy 는 공통함수 attack을 가짐
+	```c++
+	class Enemy {
+		protected:
+		int attackPower;
+		public:
+		void setAttackPower(int a){
+			attackPower = a;
+		}
+	};
+	
+	class Dragon: public Enemy {
+		public:
+		void attack() {
+			cout<< "Dragon! - "<< attackPower <<endl;
+		}
+	};
+	
+	class Monster: public Enemy {
+		public:
+		void attack(){
+			cout<< "Monster! - " << attackPower << endl;
+		}
+	};
+	
+	int main() {
+		Dragon d;
+		Monster m;
+		
+		Enemy &e1 = &d;
+		Enemy &e2 = &m;
+		
+		e1->setAttackPower(20);
+		e2->setAttackPower(90);
+
+		d.attack();
+		m.attack();
+		/* output
+		Dragon! - 20
+		Monster! - 90
+		*/
+	}
+	```
+## Virtual Functions
+- 상위 클래스에서 virtual 로 선언한 함수만 상위클래스타입 포인터로 하위클래스의 overriding한 함수를 호출 가능
+- 상위클래스에서 virtual 함수로 선언
+-> 하위클래스에서 해당 함수를 구현
+-> 상위클래스 타입 포인터에 하위클래스 객체를 연결
+-> 그 포인터로 해당 함수 call하면 하위클래스에서 구현한 함수 내용을 실행
+
+	```c++
+	#include <iostream>
+	using namespace std;
+
+	class Enemy{
+		public:
+			virtual void attack() {}
+	};
+
+	class Dragon {
+		public:
+			void attack() {
+				cout<< "Dragon attack" << endl;
+			}
+	};
+
+	class Monster{
+		public:
+			void attack() {
+				cout<< "Monster attack" << endl;
+			}
+	};
+
+	int main() {
+		Dragon d;
+		Monster m;
+		Enemy *e1 = &d;
+		Enemy *e2 = &m;
+		
+		e1->attack();
+		e2->attack();
+		
+		/* output:
+		Dragon attack
+		Monster attack
+		*/
+	}
+	```
+
+- virtual로 선언한 함수만 실제 객체타입에 맞는 함수를 호출함
+- ***polymorphic class*** : virtual function을 선언하거나 상속받은 클래스
+
+## Abstract Class
+- **Pure Virtual Function** 
+	- 하위 클래스에서 구현하도록 만든 body가 없는 함수
+	- virtual member function without definition
+	- 하위 클래스에서 해당 함수를 정의할거라고 알려주는 용도
+	- 선언 방법: =0 사용
+	```c++
+	class Enemy{
+		public:
+			virtual void attack() = 0;
+	};
+	```
+- **하위 클래스는 pure virtual function을 반드시 override 해야함**
+- override 안하면, 컴파일할 때, 하위클래스를 생성하면서 에러남
+- **Abstract Class**
+	- pure virtual function을 가진 base class
+	- 객체 생성 불가, 포인터로만 사용 가능
+	``` C++
+	Enemy e; //error
+	```	
+
+## Template
 

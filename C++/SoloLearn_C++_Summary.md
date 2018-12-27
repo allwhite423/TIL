@@ -864,5 +864,229 @@ header & source file 나눠서 생성
 	Enemy e; //error
 	```	
 
-## Template
+## Function Template
+- template type parameter 통해서 사용할 function의 type을 지정할 수 있다.
+- 모든 변수의 구체적인 type을 명시할 필요가 없음
+- ***template*** keyword
+	```c++
+	template <class T>
+	```
+	> T는 generic data type
+- generic data type T
+	```c++
+	template<class T>
+	T sum(T a, Tb) {
+		return a+b;
+	}
+	
+	int main() {
+		int x = 10, y = 5;
+		cout << sum(10, 5) << endl;
+		// output : 15
+		
+		double a = 7.15, b = 15.54;
+		cout << sum(a, b) << endl;
+		// output: 22.69
+	}
+	```
+- 정의는 한번되고, 여러 type에 대해 사용 가능
+- code 유지보수 필요성을 줄임. 중복된 코드가 줄어들기 때문에
+- **Multiple Parameter**
+	- 여러 type의 parameter도 사용 가능
+	```c++
+	template<class T, class U> 
+	T smaller(T a, U b) {
+		return(a > b? b : a);
+	}
+	int main() {
+		int x = 72;
+		double y = 15.34;
+		cout<< smaller(x, y) << endl;
+		//output: 15
+	}
+	```
+	> smaller 함수의 return type이 int로 변환되어 15.34가 아닌 15가 출력됨
+
+## Class Template
+- class도 template parameter 를 type으로 하는 member를 가질 수 있다.
+	```c++
+	template <class T>
+	class Pair {
+		private:
+		  T first, second;
+		public:
+		  Pair(T a, T b) : 
+		  first(a), second(b) {}
+	};
+	```
+- class의 member function을 class 밖에서 정의 할 때, template generic type 꼭 명시해 주어야 한다
+	```c++
+	template <class T>
+	class Pair {
+		private:
+		  T first, second;
+		public:
+		  Pair(T a, T b) : 
+		  first(a), second(b) {}
+		  T bigger();
+	};
+	
+	//function bigger()를 class 밖에서 구현
+	//syntax ***
+	template <class T>
+	T Pair<T>::bigger() {
+		return(first > second? first : second);
+	}
+	```
+- class 생성시에 type을 명시해 준다
+	```c++
+	int main() {
+		Pair<int> obj(11, 22);
+		cout<< obj.bigger() << endl;
+		//output: 22
+		
+		Pair<double> obj(23.10, 5.68);
+		cout<< obj.bigger() << endl;
+		//output : 23.10
+	}
+	```
+	
+## Template Specialization
+- 특정 type에 대한 template을 따로 구현하는 것
+	```C++
+	template<class T>
+	class MyClass{
+		public:
+		 MyClass(T x) {
+			 cout<< x<<" - not a char" << endl;
+		 }
+	};
+	
+	template< > //no template argument required
+	class MyClass<char> { // specify type
+		public:
+		 MyClass(char x) {
+			 cout<< x << " is a char!" << endl;
+		 }
+	};
+	```
+	> char type에 대해 다른 행동을 명시
+	
+	```c++
+	int main() {
+		MyClass<int> ob1(42);
+		MyClass<double> ob2(5.47);
+		MyClass<char> ob3('s'); // specialization
+	
+		/* output
+		42 - not a char
+		5.47 - not a char
+		s is a char!
+		*/
+	}
+	```
+- template specialization은 상속과 관련 없음
+- 그냥 따로 정의해 주어야 한다.
+
+## Exceptions
+- program 수행 도중 발생하는 문제
+	- ex) 0으로 나누기
+- keyword : ***try, catch, throw***
+	- ***throw [operand]*** : operand가 exception의 타입을 결정한다. 어떤 expression이든 가능
+	- ***try-catch*** : try안에서 발생한 exception을 catch 안에서 처리함. catch block은 여러개 가능
+	```C++
+	try {
+		int motherAge = 30;
+		int daughterAge = 5;
+		if(daughterAge > motherAge) {
+			throw 99;
+		}
+	} catch(int x) { 
+		cout<< "Wrong age Values - Error"<<x;
+	}
+	//output: Wrong age Values - Error 99
+	```
+	> exception 99는 int type이므로 int를 다루는 catch block에서 처리됨
+
+- Exception handling은 user에게 input 받을 때 유용함
+	- ex) 0으로 나누는 경우
+	```c++
+	int main() {
+		try{
+			int num1;
+			cout<< "Enter first number: ";
+			cin >> num1;
+			
+			int num2;
+			cout<< "Enter second number: ";
+			cin >> num2;
+			
+			if(num2 == 0) {
+				throw 0;
+			}
+			
+			cout<< "Result: "<< num1/num2;
+		} catch(int x) {
+			cout<< "Division by Zero!";
+		}
+	}
+	```
+
+- 어떤 type의 exception도 받을 수 있는 catch block
+	```c++
+	try {
+		//code
+	} catch(...) { // ellipsis
+		//code to handle exceptions
+	}
+	```
+## Files
+- file을 읽거나, file에 쓰거나 하는 기능
+- 관련 header files
+	- ***ofstream*** : output file stream - 파일을 생성하고 작성함
+	- ***ifstream*** : input file stream - 파일로부터 information 읽어들임
+	- ***fstream*** : general file stream, ofstream과 ifstream을 포함
+- file 처리를 위해서는 ***iostream, fstream*** 포함되어야 함
+	```c++
+	#include <iostream>
+	#include <fstream>
+	```
+- **File 열기/닫기**
+	- open() , close()
+	- open() : 파일이름이나 파일 경로가 operand로 들어갈 수 있다.
+	```C++
+	#include <iostream>
+	#include <fstrream>
+	
+	int main() {
+		ofstream MyFile; //output stream - 파일에 씀
+		MyFile.open("test.txt"); // 없으면 생성
+		MyFile << "Some text\n"; << 파일에 write
+		MyFile.close();
+	}
+	```
+	
+- **File 관련 함수**
+	- ***fileobject.is_open()*** : true if the file is open and ready to be accessed
+	```c++
+	#include <iostream>
+	#include <fstream>
+	
+	int main() {
+		ofstream MyFile("test.txt");
+		
+		if(MyFile.is_open()) {
+			MyFile << "writing..\n";
+		} else {
+			cout<< "Something went wrong";
+		}
+		MyFile.close();
+	}
+	```
+- **File Opening Mode**
+	- open() 함수에 parameter로 넘겨서 사용
+	- 여러개 사용할 땐 | (or) 사용
+- **File 읽기**
+	- ***getline( fileobj, string변수)***
+
 

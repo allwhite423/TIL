@@ -312,11 +312,11 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 
 ### Array 관련 method
 - 넣기
-	- push() : array 맨 뒤에 insert
-	- unshift() : array 맨 앞에 insert
+	- ***push()*** : array 맨 뒤에 insert
+	- ***unshift()*** : array 맨 앞에 insert
 - 빼기
-	- pop() : 맨 뒤의 item get & remove
-	- shift() : 맨 앞의 item get & remove
+	- ***pop()*** : 맨 뒤의 item get & remove
+	- ***shift()*** : 맨 앞의 item get & remove
 	```javascript
 	let todoList = [];
 	function remember(task) {
@@ -331,8 +331,9 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 		todoList.unshift(task); //맨 앞에 넣기
 	}
 	```
-- stack : push, pop
-- queue : unshift, pop
+	> push, pop (뒤부터) / shift, unshift (앞부터)
+	
+- stack : push, pop /  queue : unshift, pop
 - 찾기
 	- ***indexOf(n)*** : 앞에서 부터 검색해서 n이 맨처음 발견되는 곳의 index 반환
 	- ***lastIndexOf(n)*** : 뒤에서 부터 검색 "
@@ -343,10 +344,10 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 	// 3
 	```
 - 자르기 (substring)
-	- slice(s, e) : s 포함, e 불포함
-	- slice(s) : s부터 끝까지
+	- ***slice(s, e)*** : s 포함, e 불포함
+	- ***slice(s)*** : s부터 끝까지
 - 합치기
-	- a.concat(b) : a + b
+	- ***a.concat(b)*** : a + b
 	```javascript
 	//특정 index의 element 지운 array를 반환하는 함수
 	function remove(array, index) {
@@ -358,18 +359,118 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 	```
 
 ### String  관련 속성
-- length
-- toUpperCase()
+- ***length***
+- ***toUpperCase()***
 - string 변수에 새로 property 추가 불가능 => immutable
 	- type중에 숫자, string, boolean은 object가 아님
 	- 새로 property 추가하려고 하면 error는 나지 않지만, 저장되지도 않는다
 	- immutable = cannot be changed
-- slice(s, e) : array랑 같음
-- indexOf(n) 
+	```javascript
+	let Diana = "Diana"; //Diana 이름의 String 변수
+	Diana.age = 26;      //property age 추가 시도, but 저장 안됨
+	console.log(Diana.age);
+	// undefined
+	```
+- ***slice(s, e)*** : array랑 같음
+- ***indexOf(n)***
 	- n에 한자리 이상 string도 가능
 	- 첫 index를 반환해줌
-- trim()
-	- hitespace (spaces, newlines, tabs, and similar characters) 삭제
-- padStart(원하는길이, padding character)
-- split(기준)
+	```javascript
+	console.log("dream".slice(2, 4));
+	// ea
+	console.log("dream".indexOf("r"));
+	// 1
+	console.log("candle light".indexOf("le"));
+	// 4
+	```
+- ***trim()***
+	- whitespace (spaces, newlines, tabs, and similar characters) 삭제
+	```javascript
+	console.log("     nct    dream    \n".trim());
+	// nctdream
+	```
+- ***padStart(원하는길이, padding character)***
+	```javascript
+	console.log(String(6).padStart(3, "0");
+	// 006
+	
+	```
+- String 기준으로 자르기, 합치기
+	- ***split(기준)*** : 기준으로 string나눠서 array로 return
+	- ***join(기준)*** : string요소로 구성된 array를 기준으로 합침
+	```javascript
+	let favoriteLine = "Let's talk about love";
+	let words = favoriteLine.split(" "); //공백으로 나누기
+	console.log(words);
+	// ["Let's", "talk", "about", "love"]
+	console.log(words.join("//"));
+	// Let's//talk//about//love
+	``` 
+- 반복
+	- ***repeat(n)*** : n번 반복한 string return
+	```javascript
+	console.log("candleLight".repeat(3));
+	// candleLightcandleLightcandleLight
+	```
+- array처럼 []로 접근 가능
+	```javascript
+	let d = "dream";
+	console.log(d[3]);
+	// a
+	console.log(d[d.length-1]);
+	// m
+	```
+
+### Rest Parameter
+- parameter 개수를 한정하지 않음
+	- parameter가 몇개이든 다 받을 수 있다
+	- 형식) ...parameter이름 
+	- rest parameter는 array형식으로 들어감
+	```javascript
+	// argument 모두 받아서 그중 최댓값 return
+	function max(...numbers) {
+		let result = -Infinity;
+		for(let number of numbers) {
+			if(number > result)
+				result = number;
+		}
+		return result;
+	}
+	
+	console.log(max(4, 1, 9, -2));
+	// 9
+	```
+	- **...** 점 세개는 argument로 array를 받는다는 의미가 되기도 함
+	```javascript
+	let numbers = [5, 1, 7, 9];
+	console.log(max(...numbers));
+	// 9
+	```
+	- ...은 array를 퍼뜨려주는 역할을 함.
+	- 다른 argument와 함께 array를 포함해서 보내는 것도 가능
+	```javascript
+	let numbers = [5, 1, 7, 9];
+	console.log(max(10, ...numbers, 2));
+	// 10
+	
+	let words = ["Tuesday", "Wednesday"];
+	console.log("Monday",  ...words, "Thursday"]);
+	// ["Monday", "Tuesday", "Wednesday", "Thursday"]
+	```
+
+### The Math Object
+- Math : 숫자 관련된 utility 함수를 가진 object
+- namespace를 제공해서 숫자관련 함수나 value가 global 변수가 되지 않도록 함
+	- global binding 지나치게 많으면 namespace를 오염시킴(pollute)
+	- ex) Math에서 max를 제공하므로, 의도치않게 max함수를 overriding하는 사고를 방지할 수 있음
+	- JavsScript는 let, const로 선언한 변수는 taken이면 경고해주지만, var, function으로 선언시는 안알려줌
+- Math method
+	- ***max()***
+	- ***min()***
+	- ***sqrt()***
+	- ***random()*** : 0~1 사이 값을 return (0포함, 1불포함)
+	- ***floor()*** : n보다 작은 가장 가까운 정수를 return (round-down)
+	- ***ceil()*** : n보다 큰 가장 가까운 정수를 return (round-up) 
+	- cos() , sin(), tan()
 - 
+

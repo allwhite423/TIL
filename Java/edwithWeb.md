@@ -74,7 +74,7 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
 
 ```
 ## Scope
-- 변수가 유지되는 범위
+- 변수의 유효범위
 - 4가지 Scope (범위가 더 큰 순서대로)
 	- Application : 웹 어플리케이션 시작~ 종료까지 유지됨
 	- Session : 웹 브라우저별로 변수가 관리되는 경우 사용
@@ -145,7 +145,24 @@ request scope을 사용
 ![내장 객체의 종류](https://cphinf.pstatic.net/mooc/20180130_74/1517275973733EL11k_PNG/2_3_4_jsp_.PNG)
 
 ## EL (Expression Language) for JSP
-- 값을 표현하는데 사용되는 스크립트 언어
+- 표현언어: 값을 표현하는데 사용되는 스크립트 언어
 - JSP의 기본문법 보완하는 역할
+- 제공하는 기능
+	- JSP scope에 맞는 속성 사용
+	- 집학 객체에 대한 접근 방법 제공
+	- 수치, 관계, 논리 연산자 제공
+	- 자바 클래스 메소드 호출 기능 제공
+	- 표현언어만의 기본 객체 제공
+- 표현방법
+	- ***${expr}***
+- 표현언어의 기본 객체
+	별도 객![표현언어의 기본 객체](https://cphinf.pstatic.net/mooc/20180130_153/1517281495386qOuqH_PNG/2_6_1__.PNG)
 
+- 표현언어 비활성화
+	```java
+	<%@ page isELIgonored = "true" %>
+	```
+- 예시
+- 표현언어 쓰면 객체 참조해서 접근 안해도 변수이름 단독으로도 사용 가능함
+-
 ## JSTL(JSP Standard Tag Library)

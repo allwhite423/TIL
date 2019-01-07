@@ -70,30 +70,31 @@ console.log(day1.wolf);
 // false
 ```
 - ***delete*** : 단항 연산자. property를 object로부터 삭제
-	- 형식) delete objectname.propertyname
+	- 형식) ***delete _objectname._propertyname***
 - ***in*** : object에 string 이름의 property가 있으면 true, 아니면 false return
-	-  형식) string in object 
-```javascript
-let anObject = {left: 1, right: 2};
-console.log(anObject.left);
-// 1
-delete anObject.left;
-console.log(anObject.left);
-// undefined
+	-  형식) ***_string in _object***
+	```javascript
+	let anObject = {left: 1, right: 2};
+	
+	console.log(anObject.left);
+	// 1
+	delete anObject.left;
+	console.log(anObject.left);
+	// undefined
 
-console.log("left" in anObject);
-// false
-console.log("right" in anObject);
-// right
-```
-- ***Object.keys(obj)*** : parameter로 object를 넘기면, 해당 object의 property 이름들을 string array로 return
+	console.log("left" in anObject);
+	// false
+	console.log("right" in anObject);
+	// right
+	```
+- ***Object.keys(obj)*** : parameter로 object를 넘기면, 해당 object의 property 이름들을 ***string array***로 return
 	```javascript
 	console.log(Objects.keys({x: 0, y: 0, z: 2}));
 	// ["x", "y", "z"]
 	```
-- ***Object.assign(obj1, obj2)*** : obj2에 있는 property를 모두 복사하여 obj1에 넣기
+- ***Object.assign(obj1, obj2)*** : obj2에 있는 property를 모두 복사하여 obj1에 넣기 (obj1 <-obj2)
 	- obj1에 obj2를 assign
-	- 중복되는 property 의 value는 overwrite됨
+	- **중복되는 property 의 value는 overwrite 됨**
 	```javascript
 	let objA = {a: 1, b: 2};
 	Object.assign(objA, {b: 3, c: 4});
@@ -132,7 +133,7 @@ console.log("right" in anObject);
 	//불가능
 	```
 
-- == operator의 한계
+- **==** operator의 한계
 	- 같은 identity의 object인지는 확인 가능
 	- object안의 contents 가 같은지는 모름
 
@@ -143,7 +144,7 @@ console.log("right" in anObject);
 	let journal = [];
 
 	function addEntry(events, squirrel) {
-		journal.push({events, squirrel);
+		journal.push({events, squirrel});
 		// object를 표현하는 shorthand 방식
 	}
 	```
@@ -180,7 +181,7 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 - 위에서 본 상관계수 값 계산을 구현해보기
 - 측정값을  array로 받음  (size : 4)
 	- 순서는 00, 01, 10, 11
-- ***ϕ coefficient function phi***: array로 값을 받아 상관계수 return
+- _ϕ coefficient function_ ***phi***: array로 값을 받아 상관계수 return
 	```javascript
 	//table은 측정값이 들어있는 크기 4의 배열
 	function phi(table) {
@@ -210,6 +211,7 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 	- ***function tableFor(event, journal)***
 		- journal 변수를 loop안에서 돌면서 event 에 관련한 측정값 만들어서 array로 반환
 	```javascript
+	// event 는 특정 이벤트 이름이 있는 string (ex. "pizza)
 	function tableFor(event, journal) {
 		let table = [0, 0, 0, 0];
 		
@@ -295,7 +297,7 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 	// → peanuts:        0.5902679812
 	```
 - 상관계수가 높은 event를 합쳐서 상관계수 구하기
-	- 위의 결과에서 ***peanuts & brushed teeth***가 상관계수가 높음
+	- 위의 결과에서 ***peanuts & brushed teeth*** 가 상관계수가 높음
 	- peanuts는 +, brushed teeth 는 - 관계
 	```javascript
 	for(let entry of JOURNAL) {
@@ -425,7 +427,7 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 - parameter 개수를 한정하지 않음
 	- parameter가 몇개이든 다 받을 수 있다
 	- 형식) ...parameter이름 
-	- rest parameter는 array형식으로 들어감
+	- rest parameter는 ***array*** 형식으로 들어감
 	```javascript
 	// argument 모두 받아서 그중 최댓값 return
 	function max(...numbers) {
@@ -459,18 +461,232 @@ $$ ϕ  = \frac{n_{11}n_{00} - n_{10}n_{01}}{{\sqrt {n_{1•} * n_{0•} * n_{•
 	```
 
 ### The Math Object
-- Math : 숫자 관련된 utility 함수를 가진 object
+- ***Math*** : 숫자 관련된 utility 함수를 가진 object
 - namespace를 제공해서 숫자관련 함수나 value가 global 변수가 되지 않도록 함
 	- global binding 지나치게 많으면 namespace를 오염시킴(pollute)
-	- ex) Math에서 max를 제공하므로, 의도치않게 max함수를 overriding하는 사고를 방지할 수 있음
-	- JavsScript는 let, const로 선언한 변수는 taken이면 경고해주지만, var, function으로 선언시는 안알려줌
+	- ex) ***Math***에서 ***max***를 제공하므로, 의도치않게 max함수를 overriding하는 사고를 방지할 수 있음
+	- JavaScript는 ***let, const*** 로 선언한 변수는 taken이면 경고해주지만, ***var, function*** 으로 선언시는 경고 안함
+		- scope 관련 참조
+		- var, function은 overwrite?
 - Math method
 	- ***max()***
 	- ***min()***
 	- ***sqrt()***
-	- ***random()*** : 0~1 사이 값을 return (0포함, 1불포함)
-	- ***floor()*** : n보다 작은 가장 가까운 정수를 return (round-down)
-	- ***ceil()*** : n보다 큰 가장 가까운 정수를 return (round-up) 
-	- cos() , sin(), tan()
-- 
+	- ***random()*** : 0~1 사이 값을 return (0포함, 1불포함) (ex. 0.2587..)
+	- ***floor()*** : n보다 작은 가장 가까운 정수를 return (***round-down***)
+	- ***ceil()*** : n보다 큰 가장 가까운 정수를 return (***round-up***) 
+	- ***cos() , sin(), tan()***
+- ex) 특정 범위 안에서 random 숫자 생성하기
+	```javascript
+	// 0~9
+	console.log(Math.floor(Math.random() * 10));
+	
+	// 1~10
+	console.log(Math.ceil(Math.random() * 10));
+	```
+### Destructuring 구조분해할당
+> [참조사이트](https://poiemaweb.com/es6-destructuring)
+- 배열, 객체의 각 요소를 분해(destructure)하여 별개의 변수에 넣는 것
+- 자세한 예시는 참조사이트 go!
 
+### JSON
+_serialize data_
+- data 통신에 있어서 _serialize(직렬화)_ 하는게 효율적
+- ***serialize*** : 외부시스템에서도 현재 시스템의 객체나 data를 사용할 수 있도록 byte 형태로 데이터 변환하는 것
+- serialize하는 방식 중 하나가 JSON format
+- [JSON이란 무엇일까?](https://nesoy.github.io/articles/2017-02/JSON)
+- JSON = JavaScript Object Notation
+- JSON data example
+	```javascript
+	{
+	  "squirrel": false,
+	  "events": ["work", "touched tree", "pizza", "running"]
+	}
+	```
+	> javascript에서 object와 array 표현하는 방식과 같음
+
+- ***key-value*** 쌍으로 구성됨
+- JSON 관련 함수
+	- ***JSON.stringify(_object)*** : object를 JSON format의 string으로 return
+	- ***JSON.parse(_string)._key*** : string을 파싱하여 key에 대한 value를 return
+	```javascript
+	let obj = { squirrel: true, events: ["pizza", "shower"]};
+
+	let string = JSON.stringify(obj);
+	console.log(string);
+	// {"squirrel":true,"events":["pizza","shower"]}
+
+	console.log(JSON.parse(string).events);
+	// ["pizza", "shower"]
+	```
+- object와 JSON 표기 차이점
+	- key 이름에 **""** 유무
+
+### Exercise
+1. the sum of a range - 범위 내 숫자들의 합
+- _function_ ***range***
+	- input : start, end, step(optional)
+	- output : start~end(포함) 숫자들의 array
+	```javascript
+	function range(...in) {
+		let arr = [];
+		let start = in[0];
+		let end = in[1];
+		let step = 1;
+		if(in.length == 3)
+			step = in[2];
+		while(true) {
+			arr.push(start);
+			start += step
+			if(step > 0) {
+				if(start > end)
+					break;
+			} else {
+				if(start < end) 
+					break;
+			}
+		}
+		return arr;
+	}
+	```
+- _function_ ***sum***
+	- input : array 1개
+	- output: array 모든 요소의 합
+	```javascript
+	function sum(nums) { // 배열 하나만 받으므로 rest parameter 안 씀
+		let ans = 0;
+		for(let i = 0; i < nums.length; i++ ){
+			ans += nums[i] * 1;
+		}
+		return ans;
+	}
+	```
+```javascript
+console.log(range(1, 10));
+// → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+console.log(range(5, 2, -1));
+// → [5, 4, 3, 2]
+console.log(sum(range(1, 10)));
+// → 55
+```
+2. reversing an array - array 뒤집기
+- index 맨 뒤부터 돌면서 새로운 array에 push 후 return
+3. a list - 연결리스트
+- list.keys = [value, rest]
+	- rest : 연결된 다음 list object를 가리킴
+- _function_ ***arrayToList***
+	- input: value가 들어있는 array
+	- output: input array를 value로 하는 연결 list 만들어서 맨 앞 객체를 반환
+- _function_ ***sum***(reverse of arrayToList)
+	- input: list object
+	- output: list에 연결된 객체들의 value를 모은 array
+- _function_ ***prepend(_element, _list)***
+	- input: element(value) , list
+	- output: 앞의 element를 value로 한 list 생성한 뒤, 두번째 parameter인 list의 앞에 연결
+-  _function_ ***nth(_list, _index)***
+	- input: list, n(list의 index로 0부터 시작)
+	- output: list에서 n번째 list 의 value를 return, 없다면 undefined return
+- recursive version of ***nth***
+	- 다음 list(list.rest)와 n-1을 계속 호출하여, n이 0되면 value를 return
+
+```javascript
+function arrayToList(arr) {
+	//뒤에서부터 만들어서 붙여나감
+	let previousList = null;
+	for(let i = arr.length-1; i >= 0; i++) {
+		let currentList = {value: arr[i], rest: previousList};
+		previousList = currentList;
+	}
+	
+	return previousList;
+}
+
+function listToArray(list) {
+	let arr = [];
+	//  node != null 일 때 까지
+	for(let node = list; node ; node = node.rest) {
+		arr.push(node.value);
+	} 
+	return arr;
+}
+
+function prepend(element, list) {
+	return {value: element, rest: list};
+}
+
+function nth(list, n) {
+	if(list)
+	let count = 0;
+	let node = list;
+	//way 1
+	//for(let i = 0; i < n; i++, node=node.rest);
+	// way 2
+	while(count < n) {
+		count++;
+		node = node.rest;
+	}
+	return node.value;
+}
+
+function recursiveNth(list, n) {
+	if(!list) { //list==null인 경우
+		return undefined;
+	} else if(n == 0) {
+		return list.value;
+	} else {
+		return recursiveNth(list.rest, n-1);
+	}
+}
+
+console.log(arrayToList([10, 20]));
+// → {value: 10, rest: {value: 20, rest: null}}
+console.log(listToArray(arrayToList([10, 20, 30])));
+// → [10, 20, 30]
+console.log(prepend(10, prepend(20, null)));
+// → {value: 10, rest: {value: 20, rest: null}}
+console.log(nth(arrayToList([10, 20, 30]), 1));
+// → 20
+```
+5. **deep comparision** ***(!important)***
+- **==** operator는 object 의 contents까지는 비교 못해줌
+- 단순 identity만 같은지 비교함
+- input: object 2개
+- output: true/false
+- 전략 
+	- 두 parameter 가 모두 object인지 체크
+		-  typeof 사용해서 object인지 확인
+		- typeof null => object 이므로 유의할 것
+	
+	- 둘다 object일 때만 property 비교
+	-  **===** operator로 비교
+		- 피연산자들이 같고 피연산자들의 같은 형태인 경우 참을 반환
+		- 같은 주소, 같은 값
+	- **Object.keys(_object)*** 사용
+		- key를 string으로 담은 array를 반환
+```javascript
+function deepEqual(a, b) {
+	if(a === b) return true;
+	
+	if(typeof a == "object" && a != null 
+		&& typeof b == "object" && b != null)
+		return false;
+	
+	let keyA = Object.keys(a), keyB = Object.keys(b);
+	
+	if(keyA.length != keyB.length) return false;
+
+	for(let key of keyA) {
+		if(!keyB.includes(key) || !deepEqual(a[key], b[key]) return false;
+	}
+	
+	return true;
+}
+
+let obj = {here: {is: "an"}, object: 2};
+console.log(deepEqual(obj, obj));
+// → true
+console.log(deepEqual(obj, {here: 1, object: 2}));
+// → false
+console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+// → true
+```

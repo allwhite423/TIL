@@ -20,7 +20,7 @@
 
 ## When debugging in Xcode
 
-![Xcode-Debugging](/Users/allwhite/Desktop/Codesquad/markdown/정리/Xcode-Debugging.png)
+![Xcode-Debugging](Xcode-Debugging.png)
 
 - Debugging navigator 
   - 어느 스레드에서 문제가 발생했는지 알 수 있다.

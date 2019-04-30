@@ -81,7 +81,3 @@
 - 사용 권장 사항
   - **자주 쓰는거 이외에도 다양하게 커버해보기!**
 
-- reference
-  - [lldb apple 공식 문서](<https://developer.apple.com/library/archive/documentation/General/Conceptual/lldb-guide/chapters/Introduction.html>)
-
-&nbsp;

@@ -1,12 +1,14 @@
 # Difference between Value type and Reference type in iOS Swift
 
-[Difference between value type and a reference type in iOS swift?](https://medium.com/@abhimuralidharan/difference-between-value-type-and-a-reference-type-in-ios-swift-18cb5145ad7a)
+> [Difference between value type and a reference type in iOS swift?](https://medium.com/@abhimuralidharan/difference-between-value-type-and-a-reference-type-in-ios-swift-18cb5145ad7a)
 
 in Swift
 
 Class = of Reference type
 
 Struct = of Value type
+
+&nbsp;
 
 ## Value type
 
@@ -20,11 +22,17 @@ swift의 모든 basic type은 모두 value type 으로 구현됨
 
 > Collections defined by the standard library like arrays, dictionaries, and strings use an optimization to reduce the performance cost of copying. Instead of making a copy immediately, **these collections share the memory where the elements are stored between the original instance and any copies.** If one of the copies of the collection is modified, the elements are copied just before the modification. The behavior you see in your code is always as if a copy took place immediately.  (COW)
 
+&nbsp;
+
 ## Reference type
 
 > instances share a single copy of the data
 
 값 할당, 초기화, 함수 인자로 넘기면 해당 인스턴스의 reference를 가지며, 결국 한 instance를 share하게 됨
+
+&nbsp;
+
+&nbsp;
 
 # Why Value type Over Reference type
 
@@ -33,26 +41,36 @@ swift의 모든 basic type은 모두 value type 으로 구현됨
 - reference type 단점
     - 여러 변수가 한 instance를 share 하기 때문에,
 
+&nbsp;
+
 # let으로 선언시 차이점
 
-class 변수 let으로 선언
+###class 변수 let으로 선언
 
 - 내부 property 변동 가능
 - reference 값만 못 바꿈
 - class에서 let, var 차이는 instance를 reassign 가능/불가능 여부
 - 할당된 instance를 바꿀 수 있음 → var / 없음 → let
 
-struct 변수 let으로 선언
+###struct 변수 let으로 선언
 
 - 내부 property 변동 불가!
 - constant object를 만듬
 
+&nbsp;
+
+&nbsp;
+
 # 메모리 저장시에 차이점
 
-- value type - stack memory : static memory allocation
-- reference type - managed heap memory : dynamic memory allocation
+- **value type** - stack memory : static memory allocation
+- **reference type** - managed heap memory : dynamic memory allocation
 - ex) class type인데 안에 value type property가 있다 → heap memory
     - 모든 reference type ⇒ heap memory에 있으므로 그 안의 속성들도 다 heap memory together!
+
+&nbsp;
+
+&nbsp;
 
 # stack, heap memory
 
